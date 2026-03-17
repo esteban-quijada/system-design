@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
     - name: url-shortener
-      image: url-shortener:v1 
+      image: url-shortener:v1.1
       imagePullPolicy: Never
       ports:
         - containerPort: 8000
