@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, HttpUrl
 import secrets
@@ -19,12 +19,13 @@ class ShortenResponse(BaseModel):
 
 
 @app.post("/shorten", response_model=ShortenResponse)
-def shorten_url(request: ShortenRequest):
+def shorten_url(request: Request, body: ShortenRequest):
     short_code = secrets.token_urlsafe(6)
-    url_store[short_code] = str(request.url)
+    url_store[short_code] = str(body.url)
+    base_url = str(request.base_url)
     return ShortenResponse(
         short_code=short_code,
-        short_url=f"http://localhost:8000/{short_code}",
+        short_url=f"{base_url}{short_code}",
     )
 
 
