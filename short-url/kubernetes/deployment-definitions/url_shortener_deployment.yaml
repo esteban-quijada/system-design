@@ -22,12 +22,23 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            # Sensitive
             - name: POSTGRES_USER
-              value: "urluser"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
             - name: POSTGRES_PASSWORD
-              value: "urlpassword"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
             - name: POSTGRES_DB
-              value: "urldb"
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+            # Not sensitive
             - name: POSTGRES_HOST
               value: "db"
             - name: POSTGRES_PORT
