@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Generator, Optional
 
 from fastapi import FastAPI, HTTPException, Request, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, HttpUrl
 from sqlalchemy import create_engine, Column, String, Integer, DateTime
@@ -40,6 +41,13 @@ class URLRecord(Base):
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 def get_db() -> Generator:
